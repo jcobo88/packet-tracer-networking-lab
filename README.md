@@ -72,42 +72,53 @@ packet-tracer-networking-lab/
 The topology grew throughout the project. The completed design contains an internal multi-VLAN network, two internal routers, remote networks, centralized services, redundant switching, and a simulated ISP/Internet connection.
 
 ```text
-                              INTERNET-SERVER
-                               198.51.100.10
-                                      |
+                               INTERNET-SERVER
+                                198.51.100.10
+                                       |
+                              198.51.100.0/24
+                                       |
+                              G0/1 198.51.100.1
                                     ISP01
-                          198.51.100.1 / 203.0.113.1
-                                      |
+                              G0/0 203.0.113.1
+                                       |
                                203.0.113.0/30
-                                      |
-                            G0/2 203.0.113.2
-                                  ROUTER01
-                         ____________|____________
-                        /                         \
-               G0/0 802.1Q trunk                 G0/1
-                       |                       10.0.0.1/30
-                    SWITCH01                        |
-                 _____|_______                   ROUTER02
-                /     |       \                 10.0.0.2/30
-               /      |        \                 /         \
-          VLAN 10  VLAN 20   VLAN 50        192.168.30   192.168.40
-             IT      SALES       HR             |             |
-              \        |        /            SWITCH02      PC-REMOTE02
-               \_______|_______/                |
-                       |                   PC-REMOTE01
-                 VLAN 99 MGMT              DHCP/DNS SERVER
-                       |
-                 SWITCH01 SVI
-                  192.168.99.2
+                                       |
+                              G0/2 203.0.113.2
+                                   ROUTER01
+                         _____________|______________
+                        /                             \
+               G0/0 802.1Q trunk                 G0/1 10.0.0.1/30
+                       |                             |
+                    SWITCH01                  10.0.0.0/30
+                  _____|_______                      |
+                 /     |       \                G0/0 10.0.0.2
+                /      |        \                  ROUTER02
+          VLAN 10   VLAN 20   VLAN 50            /        \
+             IT       SALES       HR       G0/1 .30.1    G0/2 .40.1
+              |         |         |              |             |
+        IT devices  Sales PCs   PC-HR01       SWITCH02     PC-REMOTE02
+              |                                  /   \        .40.10
+       INTERNAL-WEB                     PC-REMOTE01  DHCP/DNS
+       192.168.10.20                     .30.10      SERVER
+                                                     .30.20
 
-                  SWITCH01
-                 /        \
-          Fa0/23 trunk   Fa0/24 trunk
-               /            \
-              /              \
+
+                    SWITCH01
+              Management SVI:
+                VLAN 99
+              192.168.99.2
+              Gateway: .99.1
+
+                 /            \
+         Fa0/23 trunk       Fa0/24 trunk
+               \              /
+                \            /
                    SWITCH03
                       |
+               Fa0/1 VLAN 10
+                      |
                   PC-STP01
+               192.168.10.30
 ```
 
 The two links between SWITCH01 and SWITCH03 provide Layer 2 redundancy. STP keeps one path forwarding and the other available as a backup.
