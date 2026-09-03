@@ -40,7 +40,7 @@ The repository contains the completed Packet Tracer file, exported device config
 ```text
 packet-tracer-networking-lab/
 ├── README.md
-├── packet tracer networking lab.pkt
+├── packet_tracer_networking_lab.pkt
 ├── Configs/
 │   ├── ROUTER01.txt
 │   ├── ROUTER02.txt
@@ -56,7 +56,7 @@ packet-tracer-networking-lab/
 
 ### Lab Files
 
-- [Completed Packet Tracer Lab](./packet%20tracer%20networking%20lab.pkt)
+- [Completed Packet Tracer Lab](./packet_tracer_networking_lab.pkt)
 - [ROUTER01 Configuration](Configs/ROUTER01.txt)
 - [ROUTER02 Configuration](Configs/ROUTER02.txt)
 - [SWITCH01 Configuration](Configs/SWITCH01.txt)
@@ -209,7 +209,7 @@ After the trunk and router subinterfaces were configured, inter-VLAN communicati
 
 ## Local DHCP
 
-ROUTER01 originally provides DHCP for the IT and Sales networks.
+ROUTER01 provides DHCP for the IT and Sales networks.
 
 ```text
 IT
@@ -251,7 +251,7 @@ ip helper-address 192.168.30.20
 
 on ROUTER01's `G0/0.50` subinterface.
 
-A DHCP Discover starts as a local broadcast. Routers normally do not forward Layer 3 broadcasts between networks, so the HR client could not directly reach a DHCP server on `192.168.30.0/24`.
+A DHCP Discover starts as a local broadcast. Routers normally do not forward broadcasts between networks, so the HR client could not directly reach a DHCP server on `192.168.30.0/24`.
 
 The helper address allows ROUTER01 to relay the DHCP request to the remote server.
 
@@ -474,7 +474,7 @@ The routers form an adjacency over:
 10.0.0.0/30
 ```
 
-All networks are currently in Area 0.
+All internal OSPF networks are in Area 0.
 
 LAN interfaces are configured as passive interfaces so their networks are advertised without attempting to form OSPF neighbors with user devices.
 
@@ -650,7 +650,7 @@ The NAT translation table also showed TCP translations created by the HTTP sessi
 
 # HR DHCP and DNS Troubleshooting
 
-After adding the HR network, I intentionally tested failures involving its centralized services.
+After adding the HR network, I tested failures involving its centralized services.
 
 PC-HR01 could initially reach the remote server by IP while hostname resolution failed.
 
@@ -706,13 +706,17 @@ Before the port-forwarding rule existed, INTERNET-SERVER could not open the inte
 
 ![Before Port Forwarding](screenshots/51-static-pat-before-port-forward-failure.png)
 
-After static PAT was configured, browsing to:
+After configuring static PAT, I checked the NAT translation table and confirmed the permanent TCP mapping between the outside address and INTERNAL-WEB.
+
+![Static PAT Translation Table](screenshots/52-static-pat-translation-table.png)
+
+Browsing to:
 
 ```text
 http://203.0.113.2
 ```
 
-from the outside reached:
+from the outside then reached:
 
 ```text
 192.168.10.20:80
@@ -720,7 +724,7 @@ from the outside reached:
 
 inside the network.
 
-![Static PAT Verified](screenshots/52-static-pat-port-forward-verified.png)
+![Static PAT Verified](screenshots/53-static-pat-port-forward-verified.png)
 
 ---
 
@@ -800,7 +804,7 @@ PC-STP01 remained able to reach the VLAN 10 gateway through the backup path.
 
 ![STP Failover Connectivity](screenshots/60-stp-failover-connectivity-verified.png)
 
-After reconnecting `Fa0/23`, STP reconverged and returned one of the links to the blocking state.
+After reconnecting `Fa0/23`, STP reconverged and restored the redundant topology with one forwarding path and one blocked backup path.
 
 ![STP Redundancy Restored](screenshots/61-stp-redundancy-restored.png)
 
@@ -918,7 +922,7 @@ The `screenshots` directory contains the complete build history.
 | 38–41 | NAT/PAT and Internet connectivity |
 | 42–46 | DNS, HTTP, and TCP PAT translations |
 | 47–50 | HR DHCP/DNS troubleshooting and multiple HTTP clients |
-| 51–53 | Static PAT and inbound port forwarding |
+| 51–53 | Static PAT, translation table, and inbound port forwarding |
 | 54–57 | Outside ACL testing and match counters |
 | 58–61 | STP redundancy, failover, and recovery |
 | 62–64 | Final end-to-end validation |
@@ -1036,4 +1040,4 @@ A few concepts became much clearer while building the lab:
 
 The final Packet Tracer file, device configurations, troubleshooting evidence, and final validation screenshots are included in this repository.
 
-The project intentionally focuses on foundational switching, routing, network services, security, and troubleshooting rather than trying to place every possible networking technology into one topology.
+The project focuses on foundational switching, routing, network services, security, and troubleshooting while showing the progression from a basic segmented LAN into a larger multi-router network with centralized services, simulated Internet access, security controls, and Layer 2 redundancy.
