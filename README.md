@@ -83,18 +83,18 @@ The topology grew throughout the project. The completed design contains an inter
                                   ROUTER01
                          ____________|____________
                         /                         \
-               G0/0 802.1Q trunk              G0/1
-                       |                    10.0.0.1/30
-                    SWITCH01                     |
-                 _____|_______                ROUTER02
-                /     |       \              10.0.0.2/30
-               /      |        \              /         \
-          VLAN 10  VLAN 20   VLAN 50     192.168.30   192.168.40
-             IT      SALES       HR            |             |
-              \        |        /           SWITCH02      PC-REMOTE02
+               G0/0 802.1Q trunk                 G0/1
+                       |                       10.0.0.1/30
+                    SWITCH01                        |
+                 _____|_______                   ROUTER02
+                /     |       \                 10.0.0.2/30
+               /      |        \                 /         \
+          VLAN 10  VLAN 20   VLAN 50        192.168.30   192.168.40
+             IT      SALES       HR             |             |
+              \        |        /            SWITCH02      PC-REMOTE02
                \_______|_______/                |
-                       |                  PC-REMOTE01
-                 VLAN 99 MGMT             DHCP/DNS SERVER
+                       |                   PC-REMOTE01
+                 VLAN 99 MGMT              DHCP/DNS SERVER
                        |
                  SWITCH01 SVI
                   192.168.99.2
