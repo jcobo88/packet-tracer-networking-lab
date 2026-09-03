@@ -62,6 +62,7 @@ packet-tracer-networking-lab/
 - [SWITCH01 Configuration](Configs/SWITCH01.txt)
 - [SWITCH02 Configuration](Configs/SWITCH02.txt)
 - [SWITCH03 Configuration](Configs/SWITCH03.txt)
+- [ISP01 Configuration](Configs/ISP01.txt)
 - [Screenshots](screenshots/)
 
 ---
