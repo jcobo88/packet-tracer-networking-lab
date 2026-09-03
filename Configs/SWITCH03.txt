@@ -1,4 +1,4 @@
-Switch#show running-config
+Switch03#show running-config
 Building configuration...
 
 Current configuration : 1177 bytes
